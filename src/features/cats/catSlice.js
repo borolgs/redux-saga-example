@@ -1,29 +1,25 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-export const fetchAllCats = createAsyncThunk('cats/fetchAllCats', async () => {
-  const res = await fetch('https://catfact.ninja/facts?limit=10');
-  const data = await res.json();
-  return data;
-});
+import { createSlice } from '@reduxjs/toolkit';
 
 export const catsSlice = createSlice({
   name: 'cats',
   initialState: {
     facts: [],
   },
-  extraReducers: {
-    [fetchAllCats.pending]: (state, action) => {
+  reducers: {
+    fetchAllRequest: (state, action) => {
       state.isFetching = true;
     },
-    [fetchAllCats.fulfilled]: (state, action) => {
+    fetchAllSuccess: (state, action) => {
       state.facts = action.payload.data;
     },
-    [fetchAllCats.rejected]: (state, action) => {
+    fetchAllFail: (state, action) => {
       state.isFetching = false;
-      state.error = action.error;
+      state.error = action.payload.message;
     },
   },
 });
+
+export const { actions: catActions } = catsSlice;
 
 export const selectFacts = (state) => state.cats.facts;
 

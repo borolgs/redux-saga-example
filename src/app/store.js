@@ -1,9 +1,11 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
-import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
+import catSaga from '../features/cats/catSaga';
 import catSlice from '../features/cats/catSlice';
 
 const logger = createLogger({ collapsed: true });
+const saga = createSagaMiddleware();
 
 export default configureStore({
   reducer: {
@@ -13,6 +15,8 @@ export default configureStore({
     ...getDefaultMiddleware({
       immutableCheck: true,
     }).concat(logger),
-    thunk,
+    saga,
   ],
 });
+
+saga.run(catSaga);

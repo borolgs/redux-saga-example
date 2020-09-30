@@ -1,14 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFacts, fetchAllCats } from './catSlice';
+import { selectFacts, catActions } from './catSlice';
 
 export function Cats() {
   const facts = useSelector(selectFacts);
   const dispatch = useDispatch();
-
   return (
     <div>
-      <button aria-label="Get Cat Facts" onClick={() => dispatch(fetchAllCats())}>
+      <button aria-label="Get Cat Facts" onClick={() => dispatch(catActions.fetchAllRequest())}>
         Get Cat Facts
       </button>
       <ul>
